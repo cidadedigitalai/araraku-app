@@ -1,6 +1,6 @@
 # Ararakú para iPhone
 
-O jogo de `jogos.134-209-45-236.sslip.io/araraku/` (VPS, `/srv/jogos/public/araraku`) embrulhado com Capacitor 8.
+O jogo de `araraku.convivetecnologia.com.br` (VPS, `/srv/jogos/public/araraku`) embrulhado com Capacitor 8.
 Tudo roda dentro do app, sem internet. Não há Mac: a compilação e o envio acontecem no GitHub Actions (`.github/workflows/ios.yml`).
 
 - Bilíngue: abre em inglês e, em aparelho configurado em português, em português; botões EN | PT no topo (dicionário `TXT` no `index.html`).
@@ -32,8 +32,8 @@ Quem tem o iPhone em português vê a página em português; o resto do mundo v�
 
 **Name:** Ararakú
 **Subtitle:** The macaw logic puzzle
-**Privacy Policy URL:** https://jogos.134-209-45-236.sslip.io/araraku/privacy.html
-**Support URL:** https://jogos.134-209-45-236.sslip.io/araraku/support.html
+**Privacy Policy URL:** https://araraku.convivetecnologia.com.br/privacy.html
+**Support URL:** https://araraku.convivetecnologia.com.br/support.html
 **Screenshots:** `loja/en/` (5)
 
 **Promotional text:**
@@ -64,8 +64,8 @@ Offline game, no login and no purchases. Tap marks a square with an X; double-ta
 
 **Nome:** Ararakú
 **Subtítulo:** Quebra-cabeça das araras
-**URL da política de privacidade:** https://jogos.134-209-45-236.sslip.io/araraku/privacidade.html
-**URL de suporte:** https://jogos.134-209-45-236.sslip.io/araraku/suporte.html
+**URL da política de privacidade:** https://araraku.convivetecnologia.com.br/privacidade.html
+**URL de suporte:** https://araraku.convivetecnologia.com.br/suporte.html
 **Capturas:** `loja/pt/` (5)
 
 **Texto promocional:**
