@@ -52,13 +52,13 @@ When you get one right, the macaw blinks and sings. When the board is complete, 
 - Four Brazilian biomes: Pantanal, Cerrado, Amazon and Caatinga, from 5x5 to 8x8 boards
 - Endless levels, each with a single solution
 - Species album with facts about the Hyacinth Macaw, the Blue-and-yellow Macaw, the Red-and-green Macaw and Lear's Macaw
-- Hints, undo and auto-marking for beginners
+- Animated tutorial on first launch, plus hints, undo and auto-marking for beginners
 - Music and sound effects you can turn off
 - Play in English or Portuguese
 - Works offline, no ads, no data collected
 
 **App Review notes:**
-Offline game, no login and no purchases. Tap marks a square with an X; double-tap lands a macaw. To see the win animation quickly, use the hint button (light bulb) and land the macaw on the highlighted square until the board is complete. The game is in English and Portuguese (EN | PT buttons at the top). Settings, privacy policy and support are in the sliders button at the top.
+Offline game, no login and no purchases. Tap marks a square with an X; double-tap lands a macaw. To see the win animation quickly, use the hint button (light bulb) and land the macaw on the highlighted square until the board is complete. The game is in English and Portuguese (EN | PT buttons at the top). An animated tutorial opens on first launch (dismiss with "Got it"; it can be replayed in Settings). Settings, privacy policy and support are in the sliders button at the top.
 
 ### Português (Brasil)
 
@@ -84,7 +84,7 @@ Quando você acerta, a arara pisca e canta. Quando o tabuleiro fica completo, to
 - Quatro biomas: Pantanal, Cerrado, Amazônia e Caatinga, do tabuleiro 5x5 ao 8x8
 - Fases sem fim, todas com uma única solução
 - Álbum de espécies com fatos sobre a arara-azul-grande, a arara-canindé, a arara-vermelha e a arara-azul-de-lear
-- Dicas, desfazer e marcação automática para quem está aprendendo
+- Tutorial animado na primeira vez, além de dicas, desfazer e marcação automática para quem está aprendendo
 - Música e efeitos sonoros que podem ser desligados
 - Jogue em português ou inglês
 - Funciona sem internet, sem anúncios e sem coletar nenhum dado

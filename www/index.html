@@ -107,6 +107,20 @@ h1{font:800 34px/1.05 var(--f-display);margin:0;color:var(--dark);text-wrap:bala
   .pill{font-size:15px}.pill svg{width:26px;height:26px}
   .seg button{padding:8px 10px;font-size:11.5px}
 }
+/* tutorial animado (tabuleiro 4x4 de demonstração com um "dedo" mostrando os toques) */
+.tut{display:flex;flex-direction:column;gap:12px}
+.tut-nuts{display:flex;gap:4px;justify-content:center}
+.tut-nuts svg{width:22px;height:22px;transition:opacity .3s,transform .3s}
+.tut-nuts svg.gone{opacity:.2;transform:scale(.75)}
+.tut-board{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:6px;width:min(68vw,250px);aspect-ratio:1;margin:0 auto;pointer-events:none}
+.tut-board .cell{cursor:default;transition:filter .25s,transform .25s,box-shadow .25s}
+.tut-board .cell.brilha{filter:brightness(1.12);transform:scale(1.06);box-shadow:0 0 0 3px #fff}
+.tut-txt{text-align:center;font-weight:800;min-height:3.2em;margin:0;display:flex;align-items:center;justify-content:center}
+.dedo{position:absolute;left:50%;top:50%;width:38px;height:38px;margin:-19px 0 0 -19px;border-radius:50%;background:rgba(255,255,255,.55);border:3px solid var(--dark);opacity:.4;transition:left .35s ease,top .35s ease;z-index:2}
+.dedo.bate{animation:toque .45s ease-out}
+.dedo.bate2{animation:toque2 .7s ease-out}
+@keyframes toque{0%{opacity:.4;transform:scale(1.3)}30%{opacity:1;transform:scale(.75)}100%{opacity:.4;transform:scale(1)}}
+@keyframes toque2{0%{opacity:.4;transform:scale(1.3)}20%{opacity:1;transform:scale(.75)}40%{opacity:.7;transform:scale(1.05)}60%{opacity:1;transform:scale(.75)}100%{opacity:.4;transform:scale(1)}}
 @media (max-height:780px){ /* telas baixas: sobra mais altura para o tabuleiro (a página não rola) */
   .brandbar{margin-bottom:8px;padding-bottom:8px}
   .eyebrow{display:none}
@@ -188,7 +202,8 @@ let LANG=(()=>{try{const v=JSON.parse(localStorage.getItem('araraku-lang'));if(v
 const L=o=>o&&typeof o==='object'&&'pt' in o?o[LANG]:o; // campo bilíngue {pt,en} -> texto do idioma atual
 const TXT={
   pt:{sub:'Araras do Brasil',placed:'Araras pousadas',lives:'Castanhas (vidas)',biome:'Bioma',album:'Álbum de espécies',hint:'Dica',undo:'Desfazer',restart:'Reiniciar',rules:'Como jogar',board:'Tabuleiro',
-    autoX:'Marcar X automático em volta de cada arara',sfx:'Efeitos sonoros',music:'Música de fundo',allGames:'Todos os jogos',privacy:'Privacidade e suporte',settings:'Ajustes',
+    autoX:'Marcar X automático em volta de cada arara',sfx:'Efeitos sonoros',music:'Música de fundo',allGames:'Todos os jogos',privacy:'Privacidade e suporte',settings:'Ajustes',gotIt:'Entendi',replay:'Ver de novo',tutLink:'Ver o tutorial',
+    tut:['Cada cor é uma árvore. Cada árvore recebe exatamente uma arara.','Toque uma vez para marcar X onde a arara não pode ficar.','Toque duas vezes para pousar a arara.','Só uma por linha e por coluna, e nunca encostadas, nem na diagonal.','Errou? Perde uma castanha. São três por fase.','Complete todas as árvores e as araras voam livres!'],
     start:'Toque para marcar com X. Toque duas vezes para pousar a arara.',preparing:'Preparando a fase...',level:n=>`Fase ${n}`,
     cell:(i,j,m)=>`Linha ${i}, coluna ${j}: ${m===2?'arara':m===1?'marcada':'vazia'}`,landed:(i,j)=>`Arara pousada na linha ${i}, coluna ${j}.`,
     row:'Já tem arara nessa linha. −1 castanha.',col:'Já tem arara nessa coluna. −1 castanha.',tree:'Essa árvore já tem arara. −1 castanha.',
@@ -202,7 +217,8 @@ const TXT={
     pages:[['privacidade.html','Política de privacidade'],['suporte.html','Suporte'],['termos.html','Termos de uso']],
     rulesList:['Cada <b>cor</b> é uma árvore e recebe exatamente <b>uma arara</b>.','Só uma arara por <b>linha</b> e por <b>coluna</b>.','Araras são territoriais: <b>não pousam encostadas</b>, nem na diagonal.','<b>Toque</b> marca com X. <b>Toque duplo</b> pousa a arara. Errar custa uma castanha.','A arara com borda branca já vem pousada. Comece por ela.']},
   en:{sub:'Macaws of Brazil',placed:'Macaws landed',lives:'Nuts (lives)',biome:'Biome',album:'Species album',hint:'Hint',undo:'Undo',restart:'Restart',rules:'How to play',board:'Board',
-    autoX:'Auto-mark X around each macaw',sfx:'Sound effects',music:'Background music',allGames:'All games',privacy:'Privacy and support',settings:'Settings',
+    autoX:'Auto-mark X around each macaw',sfx:'Sound effects',music:'Background music',allGames:'All games',privacy:'Privacy and support',settings:'Settings',gotIt:'Got it',replay:'Watch again',tutLink:'Watch the tutorial',
+    tut:['Each color is a tree. Each tree gets exactly one macaw.','Tap once to mark an X where a macaw can’t be.','Double-tap to land the macaw.','Only one per row and per column, and never touching, not even diagonally.','A mistake costs one nut. You have three per level.','Fill every tree and the macaws fly free!'],
     start:'Tap to mark an X. Double-tap to land a macaw.',preparing:'Preparing the level...',level:n=>`Level ${n}`,
     cell:(i,j,m)=>`Row ${i}, column ${j}: ${m===2?'macaw':m===1?'marked':'empty'}`,landed:(i,j)=>`Macaw landed on row ${i}, column ${j}.`,
     row:'There is already a macaw in this row. −1 nut.',col:'There is already a macaw in this column. −1 nut.',tree:'This tree already has a macaw. −1 nut.',
@@ -570,18 +586,70 @@ function privacidade(){
     <div class="row"><button class="btn primary" id="mClose">${tx('close')}</button></div>`);
   $('mClose').onclick=close;
 }
+/* ---------- Tutorial animado: 4x4 de demonstração em loop, até tocar em "Entendi" ---------- */
+const TUT={n:4,sol:[1,3,0,2],g:[[0,0,1,1],[0,2,2,1],[3,2,2,1],[3,3,2,1]],pal:['#A9D88F','#6CB4DC','#E6C84E','#DA94B2']};
+const XSVG='<svg class="x" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>';
+let tutTk=0;
+function tutorial(){
+  const tk=++tutTk;
+  modal(`<div class="tut"><h3>${tx('rules')}</h3>
+    <div class="tut-nuts" id="tutN"></div>
+    <div class="tut-board" id="tutB"></div>
+    <p class="tut-txt" id="tutT" aria-live="polite"></p>
+    <div class="row"><button class="btn" id="tutDe">${tx('replay')}</button><button class="btn primary" id="tutOk">${tx('gotIt')}</button></div></div>`);
+  $('overlay').dataset.fixo='1'; // tocar fora não fecha: só o "Entendi"
+  $('tutOk').onclick=()=>{store.set('araraku-tutorial',true);tutTk++;delete $('overlay').dataset.fixo;close()};
+  $('tutDe').onclick=tutorial;
+  rodarTutorial(tk);
+}
+async function rodarTutorial(tk){
+  const zz=ms=>new Promise(r=>setTimeout(r,ms)),vivo=()=>tk===tutTk&&$('tutB');
+  const {n,g,sol,pal}=TUT;
+  while(vivo()){
+    const B=$('tutB'),T=$('tutT'),N=$('tutN');B.innerHTML='';
+    N.innerHTML=[0,1,2].map(()=>NUT).join('');
+    const cel=[];
+    for(let i=0;i<n;i++)for(let j=0;j<n;j++){const c=document.createElement('div');c.className='cell';c.style.background=pal[g[i][j]];B.appendChild(c);cel.push(c)}
+    const C=(i,j)=>cel[i*n+j],dedo=document.createElement('div');dedo.className='dedo';B.appendChild(dedo);
+    const fala=k=>{T.textContent=tx('tut')[k]};
+    const toca=async(i,j,duas)=>{const c=C(i,j);dedo.style.left=c.offsetLeft+c.offsetWidth/2+'px';dedo.style.top=c.offsetTop+c.offsetHeight/2+'px';
+      await zz(380);dedo.classList.remove('bate','bate2');void dedo.offsetWidth;dedo.classList.add(duas?'bate2':'bate');await zz(duas?650:420)};
+    const pousa=(i,j)=>{C(i,j).innerHTML=bird('azul','bird canta')};
+    // 1. cada cor é uma árvore
+    fala(0);await zz(600);
+    for(let r=0;r<n&&vivo();r++){cel.forEach((c,k)=>c.classList.toggle('brilha',g[k/n|0][k%n]===r));await zz(650)}
+    cel.forEach(c=>c.classList.remove('brilha'));if(!vivo())return;
+    // 2. toque marca X
+    fala(1);await zz(500);await toca(0,0);C(0,0).innerHTML=XSVG;await zz(300);await toca(1,0);C(1,0).innerHTML=XSVG;await zz(700);if(!vivo())return;
+    // 3. toque duplo pousa
+    fala(2);await zz(500);await toca(0,sol[0],true);pousa(0,sol[0]);await zz(1300);if(!vivo())return;
+    // 4. linha, coluna e vizinhas
+    fala(3);await zz(400);
+    for(let i=0;i<n;i++)for(let j=0;j<n;j++){if(!vivo())return;if(C(i,j).innerHTML)continue;
+      if(i===0||j===sol[0]||(Math.abs(i)<2&&Math.abs(j-sol[0])<2)){C(i,j).innerHTML=XSVG;await zz(140)}}
+    await zz(1200);if(!vivo())return;
+    // 5. erro custa castanha
+    fala(4);await zz(400);await toca(2,2,true);
+    C(2,2).classList.add('bad');N.children[2].classList.add('gone');await zz(700);C(2,2).classList.remove('bad');await zz(900);if(!vivo())return;
+    // 6. completa e voam
+    fala(5);await zz(300);
+    for(const i of [1,2,3]){if(!vivo())return;await toca(i,sol[i],true);pousa(i,sol[i]);await zz(350)}
+    await zz(900);B.querySelectorAll('svg.bird').forEach((b,k)=>{b.style.animationDelay=k*.08+'s';b.classList.add('decola')});dedo.style.opacity=0;
+    await zz(2200);
+  }
+}
 const NATIVO=!!window.Capacitor?.isNativePlatform?.();
 function ajustes(){ // opções e links ficam aqui para o tabuleiro ocupar a tela toda, sem rolar
   modal(`<h3>${tx('settings')}</h3>
     <label class="opts"><input type="checkbox" id="oAutoX"${autoX?' checked':''}> ${tx('autoX')}</label>
     <label class="opts"><input type="checkbox" id="oSom"${som?' checked':''}> ${tx('sfx')}</label>
     <label class="opts"><input type="checkbox" id="oMusica"${musica?' checked':''}> ${tx('music')}</label>
-    <p class="links"><button type="button" id="mPriv">${tx('privacy')}</button>${NATIVO?'':`<a href="/">${tx('allGames')}</a>`}</p>
+    <p class="links"><button type="button" id="mTut">${tx('tutLink')}</button><button type="button" id="mPriv">${tx('privacy')}</button>${NATIVO?'':`<a href="/">${tx('allGames')}</a>`}</p>
     <div class="row"><button class="btn primary" id="mClose">${tx('close')}</button></div>`);
   $('oAutoX').onchange=e=>{autoX=e.target.checked};
   $('oSom').onchange=e=>{som=e.target.checked;store.set('araraku-som',som)};
   $('oMusica').onchange=e=>{musica=e.target.checked;store.set('araraku-musica',musica);musica?iniciarMusica():pararMusica()};
-  $('mPriv').onclick=privacidade;$('mClose').onclick=close;
+  $('mTut').onclick=tutorial;$('mPriv').onclick=privacidade;$('mClose').onclick=close;
 }
 function rules(){
   modal(`<h3>${tx('rules')}</h3><ul>${tx('rulesList').map(r=>`<li>${r}</li>`).join('')}</ul>
@@ -609,13 +677,14 @@ $('bUndo').onclick=undo;$('bHint').onclick=hint;$('bRestart').onclick=()=>load(S
 $('bAlbum').onclick=album;$('bRules').onclick=rules;$('bMenu').onclick=ajustes;
 addEventListener('pointerup',iniciarMusica);addEventListener('keydown',iniciarMusica); // começa no primeiro toque (pointerup libera áudio no iPhone)
 document.addEventListener('visibilitychange',()=>{if(ac)document.hidden?ac.suspend():ac.resume()}); // aba escondida: silêncio
-$('overlay').addEventListener('click',e=>{if(e.target.id==='overlay'&&!S.done)close()});
+$('overlay').addEventListener('click',e=>{if(e.target.id==='overlay'&&!S.done&&!$('overlay').dataset.fixo)close()});
 $('logo').innerHTML=bird('azul','');
 $('idioma').addEventListener('click',e=>{const b=e.target.closest('button');if(!b||b.dataset.lang===LANG)return;LANG=b.dataset.lang;store.set('araraku-lang',LANG);traduzir();if(S.puzzle&&!S.done)renderAll()});
 traduzir();
 // tabuleiro: o maior quadrado que cabe no espaço livre (a página não rola)
 new ResizeObserver(()=>{const r=$('palco').getBoundingClientRect();$('board').style.setProperty('--lado',Math.floor(Math.min(r.width,r.height,560))+'px')}).observe($('palco'));
 load(BIOMES[1],progress.cerrado||1);
+if(!store.get('araraku-tutorial',false))tutorial(); // só na primeira vez; depois, pelos Ajustes
 </script>
 </body>
 </html>
