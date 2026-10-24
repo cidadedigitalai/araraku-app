@@ -93,7 +93,7 @@ Quando você acerta, a arara pisca e canta. Quando o tabuleiro fica completo, to
 
 | Onde | Pergunta | Resposta |
 |---|---|---|
-| Informações do app | Categoria | Jogos · subcategorias Quebra-cabeça e Educativo |
+| Informações do app | Categoria | Jogos · subcategorias Quebra-cabeça e Família · secundária Educação (não existe subcategoria "Educativo" em Jogos) |
 | Informações do app | Direitos de conteúdo: contém, mostra ou acessa conteúdo de terceiros? | **Não** (a ilustração da arara é do dono do app) |
 | Privacidade do app | Você ou seus parceiros coletam dados deste app? | **Não** → aparece "Dados não coletados" |
 | Privacidade do app | Rastreamento / identificador de publicidade | Não usa (não precisa pedir permissão de rastreamento) |
