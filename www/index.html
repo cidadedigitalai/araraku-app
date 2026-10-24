@@ -18,19 +18,21 @@
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:max(14px,env(safe-area-inset-top,0px)) max(32px,env(safe-area-inset-bottom,0px));
+html{height:100%;overflow:hidden;overscroll-behavior:none}
+body{margin:0;height:100vh;height:100dvh;overflow:hidden;overscroll-behavior:none;display:flex;flex-direction:column;
+  background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:max(14px,env(safe-area-inset-top,0px)) max(14px,env(safe-area-inset-bottom,0px));
   -webkit-touch-callout:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
 button{font-family:inherit;color:inherit}
 button:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
 
-.brandbar{max-width:860px;margin:0 auto 18px;display:flex;align-items:center;gap:10px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.brandbar{width:100%;flex-shrink:0;max-width:860px;margin:0 auto 12px;display:flex;align-items:center;gap:10px;padding-bottom:12px;border-bottom:1px solid var(--line)}
 .brandbar .logo{width:38px;height:38px;border-radius:10px;background:var(--card);box-shadow:0 1px 4px rgba(74,58,53,.12);display:grid;place-items:center}
 .brandbar .logo svg{width:32px;height:32px}
 .brandbar b{font:800 17px/1 var(--f-display);display:block;color:var(--dark)}
 .brandbar small{font-size:11.5px;color:#B0715F;font-weight:700}
 
-.top{max-width:860px;margin:0 auto;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:14px}
+.top{width:100%;flex-shrink:0;max-width:860px;margin:0 auto;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:14px}
 .left{display:flex;gap:8px;flex-wrap:wrap}
 .pill{background:var(--card);border-radius:999px;padding:6px 14px 6px 8px;display:flex;align-items:center;gap:6px;
   box-shadow:0 2px 8px rgba(74,58,53,.10);font:800 17px var(--f-body);font-variant-numeric:tabular-nums}
@@ -53,8 +55,9 @@ h1{font:800 34px/1.05 var(--f-display);margin:0;color:var(--dark);text-wrap:bala
 .icon svg{width:19px;height:19px;stroke:var(--ink);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 .icon b{font:800 17px var(--f-body)}
 
-.card{max-width:760px;margin:22px auto 0;background:var(--card);border-radius:28px;padding:22px;box-shadow:0 10px 30px rgba(74,58,53,.08);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:18px}
-.board{--n:6;display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));grid-template-rows:repeat(var(--n),minmax(0,1fr));gap:clamp(4px,1.2vw,9px);width:min(100%,540px);aspect-ratio:1;max-width:100%;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.card{width:100%;flex:1 1 auto;min-height:0;max-width:760px;margin:14px auto 0;background:var(--card);border-radius:28px;padding:22px;box-shadow:0 10px 30px rgba(74,58,53,.08);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:12px}
+.palco{flex:1 1 0;min-height:0;width:100%;display:grid;place-items:center;overflow:hidden} /* espaço livre do tabuleiro */
+.board{--n:6;display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));grid-template-rows:repeat(var(--n),minmax(0,1fr));gap:clamp(4px,1.2vw,9px);width:var(--lado,min(100%,540px));height:var(--lado,auto);aspect-ratio:1;max-width:100%;touch-action:manipulation;user-select:none;-webkit-user-select:none}
 .cell{position:relative;border:0;padding:0;border-radius:clamp(7px,1.6vw,12px);cursor:pointer;display:grid;place-items:center;transition:filter .15s,transform .12s;overflow:visible}
 .cell:hover{filter:brightness(1.04)}
 .cell:active{transform:scale(.96)}
@@ -104,9 +107,19 @@ h1{font:800 34px/1.05 var(--f-display);margin:0;color:var(--dark);text-wrap:bala
   .pill{font-size:15px}.pill svg{width:26px;height:26px}
   .seg button{padding:8px 10px;font-size:11.5px}
 }
+@media (max-height:780px){ /* telas baixas: sobra mais altura para o tabuleiro (a página não rola) */
+  .brandbar{margin-bottom:8px;padding-bottom:8px}
+  .eyebrow{display:none}
+  h1{font-size:23px}
+  .top{gap:8px}
+  .card{margin-top:10px;padding:10px;gap:8px}
+  .status{padding:7px 14px;min-height:0;font-size:13px}
+}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-.voltar{text-align:center;margin:18px 0 0;font-size:13px}.voltar a{color:var(--muted)}
-.rodape{text-align:center;margin:6px 0 0}.rodape button{border:0;background:none;color:var(--muted);text-decoration:underline;font:700 13px var(--f-body);cursor:pointer;padding:8px}
+.modal .opts{font-size:15px;color:var(--ink);margin:2px 0}
+.links{display:flex;flex-wrap:wrap;gap:4px 18px;margin:6px 0 0}
+.links a,.links button{border:0;background:none;padding:6px 0;color:#1E6FBF;font:800 14px var(--f-body);text-decoration:underline;cursor:pointer}
+.idioma{margin-left:auto}
 .modal a{color:#1E6FBF;font-weight:800}
 @keyframes piscar{0%,22%,46%,100%{transform:none}9%,13%,33%,37%{transform:translateY(16.2px)}}
 .canta .lid{animation:piscar .9s ease-in-out .38s}
@@ -137,57 +150,100 @@ h1{font:800 34px/1.05 var(--f-display);margin:0;color:var(--dark);text-wrap:bala
 
 <div class="brandbar">
   <div class="logo" id="logo"></div>
-  <div><b>Ararakú</b><small>Araras do Brasil</small></div>
+  <div><b>Ararakú</b><small data-t="sub">Araras do Brasil</small></div>
+  <div class="seg idioma" id="idioma" role="group" aria-label="Language / Idioma"><button data-lang="en">EN</button><button data-lang="pt">PT</button></div>
+  <button class="icon" id="bMenu" data-ta="settings" aria-label="Ajustes" title="Ajustes"><svg viewBox="0 0 24 24"><path d="M21 4h-7M10 4H3M21 12h-9M8 12H3M21 20h-5M12 20H3M14 2v4M8 10v4M16 18v4"/></svg></button>
 </div>
 
 <div class="top">
   <div class="left">
-    <div class="pill" title="Araras pousadas"><span id="pillBird"></span><span><span class="num" id="placed">0</span>/<span id="total">6</span></span></div>
-    <div class="pill lives" id="lives" title="Castanhas (vidas)"></div>
+    <div class="pill" data-ta="placed" title="Araras pousadas"><span id="pillBird"></span><span><span class="num" id="placed">0</span>/<span id="total">6</span></span></div>
+    <div class="pill lives" id="lives" data-ta="lives" title="Castanhas (vidas)"></div>
   </div>
   <div class="center">
     <h1 id="title">Fase 1</h1>
-    <div class="eyebrow">Bioma</div>
-    <div class="seg" id="biomes" role="group" aria-label="Bioma"></div>
+    <div class="eyebrow" data-t="biome">Bioma</div>
+    <div class="seg" id="biomes" role="group" data-tl="biome" aria-label="Bioma"></div>
   </div>
   <div class="right">
-    <button class="icon" id="bAlbum" aria-label="Álbum de espécies" title="Álbum"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><rect x="14" y="14" width="6" height="6" rx="1.5"/></svg></button>
-    <button class="icon" id="bHint" aria-label="Dica" title="Dica"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V17h5v-1.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/></svg></button>
-    <button class="icon" id="bUndo" aria-label="Desfazer" title="Desfazer"><svg viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg></button>
-    <button class="icon" id="bRestart" aria-label="Reiniciar" title="Reiniciar"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.7L20 8"/><path d="M20 3v5h-5"/></svg></button>
-    <button class="icon" id="bRules" aria-label="Como jogar" title="Como jogar"><b>?</b></button>
+    <button class="icon" id="bAlbum" data-ta="album" aria-label="Álbum de espécies" title="Álbum"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><rect x="14" y="14" width="6" height="6" rx="1.5"/></svg></button>
+    <button class="icon" id="bHint" data-ta="hint" aria-label="Dica" title="Dica"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V17h5v-1.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/></svg></button>
+    <button class="icon" id="bUndo" data-ta="undo" aria-label="Desfazer" title="Desfazer"><svg viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg></button>
+    <button class="icon" id="bRestart" data-ta="restart" aria-label="Reiniciar" title="Reiniciar"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.7L20 8"/><path d="M20 3v5h-5"/></svg></button>
+    <button class="icon" id="bRules" data-ta="rules" aria-label="Como jogar" title="Como jogar"><b>?</b></button>
   </div>
 </div>
 
 <main class="card">
-  <div class="board" id="board" role="grid" aria-label="Tabuleiro"></div>
+  <div class="palco" id="palco"><div class="board" id="board" role="grid" data-tl="board" aria-label="Tabuleiro"></div></div>
   <div class="status" id="msg" aria-live="polite">Toque para marcar com X. Toque duas vezes para pousar a arara.</div>
-  <label class="opts"><input type="checkbox" id="autoX"> Marcar X automático em volta de cada arara</label>
-  <label class="opts"><input type="checkbox" id="som"> Efeitos sonoros</label>
-  <label class="opts"><input type="checkbox" id="musica"> Música de fundo</label>
 </main>
-<p class="voltar"><a href="/">Todos os jogos</a></p>
-<p class="rodape"><button type="button" id="bPriv">Privacidade e suporte</button></p>
 
 <div class="voo" id="voo" hidden aria-hidden="true"></div>
 <div class="overlay" id="overlay" hidden><div class="modal" id="modal"></div></div>
 
 <script>
+/* ---------- Idioma: inglês por padrão; português se o aparelho estiver em português ou se a pessoa escolher ---------- */
+let LANG=(()=>{try{const v=JSON.parse(localStorage.getItem('araraku-lang'));if(v==='pt'||v==='en')return v}catch(e){}return /^pt/i.test(navigator.language||'')?'pt':'en'})();
+const L=o=>o&&typeof o==='object'&&'pt' in o?o[LANG]:o; // campo bilíngue {pt,en} -> texto do idioma atual
+const TXT={
+  pt:{sub:'Araras do Brasil',placed:'Araras pousadas',lives:'Castanhas (vidas)',biome:'Bioma',album:'Álbum de espécies',hint:'Dica',undo:'Desfazer',restart:'Reiniciar',rules:'Como jogar',board:'Tabuleiro',
+    autoX:'Marcar X automático em volta de cada arara',sfx:'Efeitos sonoros',music:'Música de fundo',allGames:'Todos os jogos',privacy:'Privacidade e suporte',settings:'Ajustes',
+    start:'Toque para marcar com X. Toque duas vezes para pousar a arara.',preparing:'Preparando a fase...',level:n=>`Fase ${n}`,
+    cell:(i,j,m)=>`Linha ${i}, coluna ${j}: ${m===2?'arara':m===1?'marcada':'vazia'}`,landed:(i,j)=>`Arara pousada na linha ${i}, coluna ${j}.`,
+    row:'Já tem arara nessa linha. −1 castanha.',col:'Já tem arara nessa coluna. −1 castanha.',tree:'Essa árvore já tem arara. −1 castanha.',
+    touch:'Araras não pousam encostadas. −1 castanha.',nope:'Não é ali. Procure uma casa com motivo lógico. −1 castanha.',
+    undone:'Jogada desfeita.',hintMsg:'Dica: a casa destacada fica na árvore com menos opções livres.',removed:'Arara removida.',
+    free:'Todas as araras pousaram! Agora estão livres.',newSp:'Nova espécie no álbum! · ',result:(l,t,v)=>`Fase ${l} em ${t} · ${v}/3 castanhas`,again:'Jogar de novo',next:'Próxima fase',
+    loseT:'Acabaram as castanhas',loseP:'As araras ficaram com fome. Tente de novo sem chutar: toda arara tem um motivo lógico para estar onde está.',retry:'Tentar de novo',
+    albumP:'Complete uma fase em cada bioma para conhecer a arara de lá.',close:'Fechar',ok:'Entendi',
+    privP1:'<b>O Ararakú não coleta nenhum dado.</b> Não tem cadastro, anúncios, compras nem rastreamento, e funciona sem internet.',
+    privP2:'Suas fases, o álbum e as preferências de som ficam só neste aparelho. Desinstalar o app apaga tudo.',privP3:'Dúvidas ou problemas: WhatsApp',fone:'(43)&nbsp;99662-2117',
+    pages:[['privacidade.html','Política de privacidade'],['suporte.html','Suporte'],['termos.html','Termos de uso']],
+    rulesList:['Cada <b>cor</b> é uma árvore e recebe exatamente <b>uma arara</b>.','Só uma arara por <b>linha</b> e por <b>coluna</b>.','Araras são territoriais: <b>não pousam encostadas</b>, nem na diagonal.','<b>Toque</b> marca com X. <b>Toque duplo</b> pousa a arara. Errar custa uma castanha.','A arara com borda branca já vem pousada. Comece por ela.']},
+  en:{sub:'Macaws of Brazil',placed:'Macaws landed',lives:'Nuts (lives)',biome:'Biome',album:'Species album',hint:'Hint',undo:'Undo',restart:'Restart',rules:'How to play',board:'Board',
+    autoX:'Auto-mark X around each macaw',sfx:'Sound effects',music:'Background music',allGames:'All games',privacy:'Privacy and support',settings:'Settings',
+    start:'Tap to mark an X. Double-tap to land a macaw.',preparing:'Preparing the level...',level:n=>`Level ${n}`,
+    cell:(i,j,m)=>`Row ${i}, column ${j}: ${m===2?'macaw':m===1?'marked':'empty'}`,landed:(i,j)=>`Macaw landed on row ${i}, column ${j}.`,
+    row:'There is already a macaw in this row. −1 nut.',col:'There is already a macaw in this column. −1 nut.',tree:'This tree already has a macaw. −1 nut.',
+    touch:'Macaws never perch next to each other. −1 nut.',nope:'Not there. Look for a square with a logical reason. −1 nut.',
+    undone:'Move undone.',hintMsg:'Hint: the highlighted square is in the tree with the fewest free spots.',removed:'Macaw removed.',
+    free:'All the macaws have landed! Now they are free.',newSp:'New species in the album! · ',result:(l,t,v)=>`Level ${l} in ${t} · ${v}/3 nuts`,again:'Play again',next:'Next level',
+    loseT:'Out of nuts',loseP:'The macaws got hungry. Try again without guessing: every macaw has a logical reason to be where it is.',retry:'Try again',
+    albumP:'Finish a level in each biome to meet its macaw.',close:'Close',ok:'Got it',
+    privP1:'<b>Ararakú collects no data at all.</b> No sign-up, ads, purchases or tracking, and it works offline.',
+    privP2:'Your levels, the album and the sound settings stay only on this device. Deleting the app erases everything.',privP3:'Questions or problems: WhatsApp',fone:'+55&nbsp;43&nbsp;99662-2117',
+    pages:[['privacy.html','Privacy policy'],['support.html','Support'],['terms.html','Terms of use']],
+    rulesList:['Each <b>color</b> is a tree and gets exactly <b>one macaw</b>.','Only one macaw per <b>row</b> and per <b>column</b>.','Macaws are territorial: they <b>never perch next to each other</b>, not even diagonally.','<b>Tap</b> marks an X. <b>Double-tap</b> lands a macaw. A mistake costs one nut.','The macaw with a white border is already in place. Start from it.']}
+};
+const tx=k=>TXT[LANG][k];
+function traduzir(){ // textos fixos da página (data-t = texto, data-ta = dica e leitor de tela, data-tl = só leitor de tela)
+  document.documentElement.lang=LANG==='pt'?'pt-BR':'en';
+  document.querySelectorAll('[data-t]').forEach(e=>e.textContent=tx(e.dataset.t));
+  document.querySelectorAll('[data-ta]').forEach(e=>{e.title=tx(e.dataset.ta);e.setAttribute('aria-label',tx(e.dataset.ta))});
+  document.querySelectorAll('[data-tl]').forEach(e=>e.setAttribute('aria-label',tx(e.dataset.tl)));
+  document.querySelectorAll('#idioma button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===LANG));
+}
+
 /* ---------- Espécies (conteúdo educativo) ---------- */
 const SPECIES={
-  azul:{nome:'Arara-azul-grande',cient:'Anodorhynchus hyacinthinus',status:'Vulnerável',risk:true,img:'arara-azul.webp',asa:'asa-azul.webp',pele:'#E1AA55',
-    fatos:['É o maior papagaio do mundo: chega a cerca de 1 metro do bico à ponta da cauda.','No Pantanal, quebra com o bico as castanhas das palmeiras acuri e bocaiúva.','Faz ninho em ocos de árvores, principalmente no manduvi.']},
-  caninde:{nome:'Arara-canindé',cient:'Ara ararauna',status:'Pouco preocupante',img:'arara-caninde.webp',asa:'asa-caninde.webp',pele:'#E1E7E4',
-    fatos:['Azul nas costas e amarela no peito, é a arara mais vista no Cerrado.','Vive em casais que voam lado a lado.','Gosta de veredas com buritis, onde come frutos e faz ninho nos troncos secos.']},
-  vermelha:{nome:'Arara-vermelha',cient:'Ara chloropterus',status:'Pouco preocupante',img:'arara-vermelha.webp',asa:'asa-vermelha.webp',pele:'#ECE3DF',
-    fatos:['Tem penas verdes e azuis nas asas e linhas vermelhas no rosto branco.','Na Amazônia, come argila dos barrancos para ajudar na digestão.','Seu grito pode ser ouvido a mais de um quilômetro dentro da floresta.']},
-  lear:{nome:'Arara-azul-de-lear',cient:'Anodorhynchus leari',status:'Em perigo',risk:true,img:'arara-lear.webp',asa:'asa-lear.webp',pele:'#EEC079',
-    fatos:['Só existe no Brasil, na Caatinga do norte da Bahia.','Dorme e faz ninho em paredões de arenito, não em árvores.','Depende do coco da palmeira licuri para se alimentar.']}
+  azul:{nome:{pt:'Arara-azul-grande',en:'Hyacinth Macaw'},cient:'Anodorhynchus hyacinthinus',status:{pt:'Vulnerável',en:'Vulnerable'},risk:true,img:'arara-azul.webp',asa:'asa-azul.webp',pele:'#E1AA55',
+    fatos:{pt:['É o maior papagaio do mundo: chega a cerca de 1 metro do bico à ponta da cauda.','No Pantanal, quebra com o bico as castanhas das palmeiras acuri e bocaiúva.','Faz ninho em ocos de árvores, principalmente no manduvi.'],
+      en:['It is the largest parrot in the world: about 1 meter (3.3 ft) from beak to tail tip.','In the Pantanal, it cracks the hard nuts of acuri and bocaiuva palms with its beak.','It nests in tree hollows, mostly in manduvi trees.']}},
+  caninde:{nome:{pt:'Arara-canindé',en:'Blue-and-yellow Macaw'},cient:'Ara ararauna',status:{pt:'Pouco preocupante',en:'Least Concern'},img:'arara-caninde.webp',asa:'asa-caninde.webp',pele:'#E1E7E4',
+    fatos:{pt:['Azul nas costas e amarela no peito, é a arara mais vista no Cerrado.','Vive em casais que voam lado a lado.','Gosta de veredas com buritis, onde come frutos e faz ninho nos troncos secos.'],
+      en:['Blue on the back and yellow on the chest, it is the most commonly seen macaw in the Cerrado.','It lives in pairs that fly side by side.','It loves palm swamps with buriti palms, where it eats fruit and nests in dead trunks.']}},
+  vermelha:{nome:{pt:'Arara-vermelha',en:'Red-and-green Macaw'},cient:'Ara chloropterus',status:{pt:'Pouco preocupante',en:'Least Concern'},img:'arara-vermelha.webp',asa:'asa-vermelha.webp',pele:'#ECE3DF',
+    fatos:{pt:['Tem penas verdes e azuis nas asas e linhas vermelhas no rosto branco.','Na Amazônia, come argila dos barrancos para ajudar na digestão.','Seu grito pode ser ouvido a mais de um quilômetro dentro da floresta.'],
+      en:['It has green and blue feathers on its wings and red lines on its white face.','In the Amazon, it eats clay from riverbanks to help its digestion.','Its call can be heard more than a kilometer away inside the forest.']}},
+  lear:{nome:{pt:'Arara-azul-de-lear',en:"Lear's Macaw"},cient:'Anodorhynchus leari',status:{pt:'Em perigo',en:'Endangered'},risk:true,img:'arara-lear.webp',asa:'asa-lear.webp',pele:'#EEC079',
+    fatos:{pt:['Só existe no Brasil, na Caatinga do norte da Bahia.','Dorme e faz ninho em paredões de arenito, não em árvores.','Depende do coco da palmeira licuri para se alimentar.'],
+      en:['It lives only in Brazil, in the Caatinga of northern Bahia.','It sleeps and nests in sandstone cliffs, not in trees.','It depends on the nuts of the licuri palm for food.']}}
 };
 const BIOMES=[
   {id:'pantanal',nome:'Pantanal',n:5,sp:'azul',pal:['#6CB4DC','#A9D88F','#E6C84E','#DA94B2','#67C4BF']},
   {id:'cerrado',nome:'Cerrado',n:6,sp:'caninde',pal:['#6CB4DC','#A9D88F','#DA94B2','#E6C84E','#67C4BF','#DD86CB']},
-  {id:'amazonia',nome:'Amazônia',n:7,sp:'vermelha',pal:['#A9D88F','#6CB4DC','#F2A36B','#67C4BF','#E6C84E','#DA94B2','#A79CE3']},
+  {id:'amazonia',nome:{pt:'Amazônia',en:'Amazon'},n:7,sp:'vermelha',pal:['#A9D88F','#6CB4DC','#F2A36B','#67C4BF','#E6C84E','#DA94B2','#A79CE3']},
   {id:'caatinga',nome:'Caatinga',n:8,sp:'lear',pal:['#E6C84E','#6CB4DC','#F2A36B','#A9D88F','#DA94B2','#67C4BF','#A79CE3','#DD86CB']}
 ];
 
@@ -300,6 +356,7 @@ let progress=store.get('araraku-progress',{pantanal:1,cerrado:1,amazonia:1,caati
 let unlocked=store.get('araraku-album',[]);
 let S={biome:BIOMES[1],level:1,puzzle:null,marks:[],lives:3,history:[],start:0,done:false};
 const $=id=>document.getElementById(id);
+let autoX=false; // "marcar X automático" (não é salvo)
 
 /* ---------- Som (tudo sintetizado, sem arquivo de áudio) ---------- */
 let ac,som=store.get('araraku-som',true),musica=store.get('araraku-musica',true);
@@ -379,7 +436,7 @@ function load(biome,level){
   // ponytail: gera na thread principal (até ~4 s no celular na Caatinga 8x8); avisa e só gera depois de pintar. Web Worker se ficar lento demais
   const tk=++gerando;
   S.biome=biome;S.level=level;S.done=true;S.history=[];
-  say('Preparando a fase...');$('board').style.opacity=.4;
+  say(tx('preparing'));$('board').style.opacity=.4;
   requestAnimationFrame(()=>setTimeout(()=>{
     if(tk!==gerando)return; // trocou de fase antes de gerar
     const n=biome.n; S.puzzle=generate(n,hashStr(biome.id+'-'+level));
@@ -403,17 +460,17 @@ function renderBoard(){
 function paint(el,i,j){
   const m=S.marks[i][j];
   el.innerHTML=m===2?bird(S.biome.sp):m===1?'<svg class="x" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>':'';
-  el.setAttribute('aria-label',`Linha ${i+1}, coluna ${j+1}: ${m===2?'arara':m===1?'marcada':'vazia'}`);
+  el.setAttribute('aria-label',tx('cell')(i+1,j+1,m));
 }
 const cellEl=(i,j)=>$('board').children[i*S.puzzle.n+j];
 function count(){let c=0;for(const r of S.marks)for(const v of r)if(v===2)c++;$('placed').textContent=c;$('total').textContent=S.puzzle.n;return c}
 function renderLives(){$('lives').innerHTML=[0,1,2].map(k=>NUT.replace('<svg',`<svg class="${k<S.lives?'':'gone'}"`)).join('')}
 function renderAll(){
-  $('biomes').innerHTML=BIOMES.map(b=>`<button data-b="${b.id}" aria-pressed="${S.biome.id===b.id}">${b.nome}</button>`).join('');
-  $('title').textContent=`Fase ${S.level}`;
+  $('biomes').innerHTML=BIOMES.map(b=>`<button data-b="${b.id}" aria-pressed="${S.biome.id===b.id}">${L(b.nome)}</button>`).join('');
+  $('title').textContent=tx('level')(S.level);
   $('pillBird').innerHTML=bird(S.biome.sp,'');
   renderBoard();renderLives();count();
-  say('Toque para marcar com X. Toque duas vezes para pousar a arara.');
+  say(tx('start'));
 }
 const say=t=>$('msg').textContent=t;
 
@@ -428,31 +485,31 @@ function tryPlace(i,j){
   }
   const step=[[i,j,S.marks[i][j]]];S.marks[i][j]=2;paint(cellEl(i,j),i,j);
   cellEl(i,j).querySelector('svg').classList.add('canta');cantar(S.biome.sp);tremer('acerto');
-  if($('autoX').checked){const{n,g}=S.puzzle;
+  if(autoX){const{n,g}=S.puzzle;
     for(let a=0;a<n;a++)for(let b=0;b<n;b++){if(S.marks[a][b])continue;
       if(a===i||b===j||g[a][b]===g[i][j]||(Math.abs(a-i)<2&&Math.abs(b-j)<2)){step.push([a,b,0]);S.marks[a][b]=1;paint(cellEl(a,b),a,b)}}}
   S.history.push(step);
-  say(`Arara pousada na linha ${i+1}, coluna ${j+1}.`);
+  say(tx('landed')(i+1,j+1));
   if(count()===S.puzzle.n)win();
 }
 function why(i,j){
   const{n,g}=S.puzzle;
   for(let a=0;a<n;a++)for(let b=0;b<n;b++)if(S.marks[a][b]===2){
-    if(a===i)return'Já tem arara nessa linha. −1 castanha.';
-    if(b===j)return'Já tem arara nessa coluna. −1 castanha.';
-    if(g[a][b]===g[i][j])return'Essa árvore já tem arara. −1 castanha.';
-    if(Math.abs(a-i)<2&&Math.abs(b-j)<2)return'Araras não pousam encostadas. −1 castanha.';
+    if(a===i)return tx('row');
+    if(b===j)return tx('col');
+    if(g[a][b]===g[i][j])return tx('tree');
+    if(Math.abs(a-i)<2&&Math.abs(b-j)<2)return tx('touch');
   }
-  return'Não é ali. Procure uma casa com motivo lógico. −1 castanha.';
+  return tx('nope');
 }
-function undo(){const st=S.history.pop();if(!st||S.done)return;for(const[i,j,p]of st){S.marks[i][j]=p;paint(cellEl(i,j),i,j)}count();say('Jogada desfeita.')}
+function undo(){const st=S.history.pop();if(!st||S.done)return;for(const[i,j,p]of st){S.marks[i][j]=p;paint(cellEl(i,j),i,j)}count();say(tx('undone'))}
 function hint(){
   if(S.done)return;const{n,g,sol}=S.puzzle;let best=null,bf=99;
   for(let reg=0;reg<n;reg++){const r=sol.findIndex((c,x)=>g[x][c]===reg);if(S.marks[r][sol[r]]===2)continue;
     let f=0;for(let a=0;a<n;a++)for(let b=0;b<n;b++)if(g[a][b]===reg&&S.marks[a][b]===0)f++;
     if(f<bf){bf=f;best=[r,sol[r]]}}
   if(!best)return;const el=cellEl(...best);el.classList.add('hint');setTimeout(()=>el.classList.remove('hint'),2200);
-  say('Dica: a casa destacada fica na árvore com menos opções livres.');
+  say(tx('hintMsg'));
 }
 const fmt=s=>`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
 function modal(html){$('modal').innerHTML=html;$('overlay').hidden=false}
@@ -483,44 +540,52 @@ function win(){
   if(isNew){unlocked.push(sp);store.set('araraku-album',unlocked)}
   progress[S.biome.id]=Math.max(progress[S.biome.id]||1,S.level+1);store.set('araraku-progress',progress);
   const s=SPECIES[sp],t=Math.round((Date.now()-S.start)/1000);
-  say('Todas as araras pousaram! Agora estão livres.');tremer('vitoria');
-  voar(sp,()=>{modal(`<div class="head">${bird(sp,'')}<div><h3>${s.nome}</h3><div class="sci">${s.cient}</div><span class="badge ${s.risk?'risk':''}">${s.status}</span></div></div>
-    <div class="res">${isNew?'Nova espécie no álbum! · ':''}Fase ${S.level} em ${fmt(t)} · ${S.lives}/3 castanhas</div>
-    <ul>${s.fatos.map(f=>`<li>${f}</li>`).join('')}</ul>
-    <div class="row"><button class="btn" id="mAgain">Jogar de novo</button><button class="btn primary" id="mNext">Próxima fase</button></div>`);
+  say(tx('free'));tremer('vitoria');
+  voar(sp,()=>{modal(`<div class="head">${bird(sp,'')}<div><h3>${L(s.nome)}</h3><div class="sci">${s.cient}</div><span class="badge ${s.risk?'risk':''}">${L(s.status)}</span></div></div>
+    <div class="res">${isNew?tx('newSp'):''}${tx('result')(S.level,fmt(t),S.lives)}</div>
+    <ul>${L(s.fatos).map(f=>`<li>${f}</li>`).join('')}</ul>
+    <div class="row"><button class="btn" id="mAgain">${tx('again')}</button><button class="btn primary" id="mNext">${tx('next')}</button></div>`);
   $('mNext').onclick=()=>{close();load(S.biome,S.level+1)};$('mAgain').onclick=()=>{close();load(S.biome,S.level)};});
 }
 function lose(){
   S.done=true;
-  modal(`<h3>Acabaram as castanhas</h3><p>As araras ficaram com fome. Tente de novo sem chutar: toda arara tem um motivo lógico para estar onde está.</p>
-    <div class="row"><button class="btn primary" id="mRetry">Tentar de novo</button></div>`);
+  modal(`<h3>${tx('loseT')}</h3><p>${tx('loseP')}</p>
+    <div class="row"><button class="btn primary" id="mRetry">${tx('retry')}</button></div>`);
   $('mRetry').onclick=()=>{close();load(S.biome,S.level)};
 }
 function album(){
-  modal(`<h3>Álbum de espécies</h3><p>Complete uma fase em cada bioma para conhecer a arara de lá.</p>
-    <div class="album">${Object.entries(SPECIES).map(([k,s])=>{const ok=unlocked.includes(k);return`<div class="fig ${ok?'':'locked'}">${bird(k,'')}<span>${ok?s.nome:'???'}</span></div>`}).join('')}</div>
-    <div class="row"><button class="btn primary" id="mClose">Fechar</button></div>`);
+  modal(`<h3>${tx('album')}</h3><p>${tx('albumP')}</p>
+    <div class="album">${Object.entries(SPECIES).map(([k,s])=>{const ok=unlocked.includes(k);return`<div class="fig ${ok?'':'locked'}">${bird(k,'')}<span>${ok?L(s.nome):'???'}</span></div>`}).join('')}</div>
+    <div class="row"><button class="btn primary" id="mClose">${tx('close')}</button></div>`);
   $('mClose').onclick=close;
 }
 const SITE='https://jogos.134-209-45-236.sslip.io/araraku/'; // páginas completas: abrem no navegador, fora do jogo
 function privacidade(){
   const link=(arq,txt)=>`<a href="${SITE}${arq}" target="_blank" rel="noopener">${txt}</a>`;
-  modal(`<h3>Privacidade e suporte</h3>
-    <p><b>O Ararakú não coleta nenhum dado.</b> Não tem cadastro, anúncios, compras nem rastreamento, e funciona sem internet.</p>
-    <p>Suas fases, o álbum e as preferências de som ficam só neste aparelho. Desinstalar o app apaga tudo.</p>
-    <p>Dúvidas ou problemas: WhatsApp <a href="https://wa.me/5543996622117" target="_blank" rel="noopener">(43)&nbsp;99662-2117</a>.</p>
-    <p>${link('privacidade.html','Política de privacidade')} · ${link('suporte.html','Suporte')} · ${link('termos.html','Termos de uso')}</p>
-    <div class="row"><button class="btn primary" id="mClose">Fechar</button></div>`);
+  modal(`<h3>${tx('privacy')}</h3>
+    <p>${tx('privP1')}</p>
+    <p>${tx('privP2')}</p>
+    <p>${tx('privP3')} <a href="https://wa.me/5543996622117" target="_blank" rel="noopener">${tx('fone')}</a>.</p>
+    <p>${tx('pages').map(([a,txt])=>link(a,txt)).join(' · ')}</p>
+    <div class="row"><button class="btn primary" id="mClose">${tx('close')}</button></div>`);
   $('mClose').onclick=close;
 }
+const NATIVO=!!window.Capacitor?.isNativePlatform?.();
+function ajustes(){ // opções e links ficam aqui para o tabuleiro ocupar a tela toda, sem rolar
+  modal(`<h3>${tx('settings')}</h3>
+    <label class="opts"><input type="checkbox" id="oAutoX"${autoX?' checked':''}> ${tx('autoX')}</label>
+    <label class="opts"><input type="checkbox" id="oSom"${som?' checked':''}> ${tx('sfx')}</label>
+    <label class="opts"><input type="checkbox" id="oMusica"${musica?' checked':''}> ${tx('music')}</label>
+    <p class="links"><button type="button" id="mPriv">${tx('privacy')}</button>${NATIVO?'':`<a href="/">${tx('allGames')}</a>`}</p>
+    <div class="row"><button class="btn primary" id="mClose">${tx('close')}</button></div>`);
+  $('oAutoX').onchange=e=>{autoX=e.target.checked};
+  $('oSom').onchange=e=>{som=e.target.checked;store.set('araraku-som',som)};
+  $('oMusica').onchange=e=>{musica=e.target.checked;store.set('araraku-musica',musica);musica?iniciarMusica():pararMusica()};
+  $('mPriv').onclick=privacidade;$('mClose').onclick=close;
+}
 function rules(){
-  modal(`<h3>Como jogar</h3><ul>
-    <li>Cada <b>cor</b> é uma árvore e recebe exatamente <b>uma arara</b>.</li>
-    <li>Só uma arara por <b>linha</b> e por <b>coluna</b>.</li>
-    <li>Araras são territoriais: <b>não pousam encostadas</b>, nem na diagonal.</li>
-    <li><b>Toque</b> marca com X. <b>Toque duplo</b> pousa a arara. Errar custa uma castanha.</li>
-    <li>A arara com borda branca já vem pousada. Comece por ela.</li></ul>
-    <div class="row"><button class="btn primary" id="mClose">Entendi</button></div>`);
+  modal(`<h3>${tx('rules')}</h3><ul>${tx('rulesList').map(r=>`<li>${r}</li>`).join('')}</ul>
+    <div class="row"><button class="btn primary" id="mClose">${tx('ok')}</button></div>`);
   $('mClose').onclick=close;
 }
 
@@ -535,20 +600,21 @@ $('board').addEventListener('click',e=>{
     if(S.marks[i][j]!==2)tryPlace(i,j);return;
   }
   const prev=S.marks[i][j];let rec=false;
-  if(prev===2){if(S.puzzle.givens[i]!==j){rec=setMark(i,j,0);count();say('Arara removida.')}}
+  if(prev===2){if(S.puzzle.givens[i]!==j){rec=setMark(i,j,0);count();say(tx('removed'))}}
   else rec=setMark(i,j,prev===1?0:1);
   last={k,t:now,rec,prev};
 });
 $('biomes').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const bm=BIOMES.find(x=>x.id===b.dataset.b);load(bm,progress[bm.id]||1)});
 $('bUndo').onclick=undo;$('bHint').onclick=hint;$('bRestart').onclick=()=>load(S.biome,S.level);
-$('bAlbum').onclick=album;$('bRules').onclick=rules;$('bPriv').onclick=privacidade;
-$('som').checked=som;$('som').onchange=e=>{som=e.target.checked;store.set('araraku-som',som)};
-$('musica').checked=musica;$('musica').onchange=e=>{musica=e.target.checked;store.set('araraku-musica',musica);musica?iniciarMusica():pararMusica()};
+$('bAlbum').onclick=album;$('bRules').onclick=rules;$('bMenu').onclick=ajustes;
 addEventListener('pointerup',iniciarMusica);addEventListener('keydown',iniciarMusica); // começa no primeiro toque (pointerup libera áudio no iPhone)
 document.addEventListener('visibilitychange',()=>{if(ac)document.hidden?ac.suspend():ac.resume()}); // aba escondida: silêncio
 $('overlay').addEventListener('click',e=>{if(e.target.id==='overlay'&&!S.done)close()});
 $('logo').innerHTML=bird('azul','');
-if(window.Capacitor?.isNativePlatform?.())document.querySelector('.voltar')?.remove();
+$('idioma').addEventListener('click',e=>{const b=e.target.closest('button');if(!b||b.dataset.lang===LANG)return;LANG=b.dataset.lang;store.set('araraku-lang',LANG);traduzir();if(S.puzzle&&!S.done)renderAll()});
+traduzir();
+// tabuleiro: o maior quadrado que cabe no espaço livre (a página não rola)
+new ResizeObserver(()=>{const r=$('palco').getBoundingClientRect();$('board').style.setProperty('--lado',Math.floor(Math.min(r.width,r.height,560))+'px')}).observe($('palco'));
 load(BIOMES[1],progress.cerrado||1);
 </script>
 </body>
