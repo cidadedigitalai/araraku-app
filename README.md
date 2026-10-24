@@ -40,7 +40,10 @@ Atualizar o app depois de mexer no jogo: `npm run jogo` → commit → rodar a e
 **Categoria:** Jogos · subcategorias Quebra-cabeça e Educativo
 **Preço:** grátis · **Classificação etária:** 4+ (responder "nenhum" em tudo)
 **Privacidade do app:** Dados não coletados
-**URL de privacidade e de suporte:** https://jogos.134-209-45-236.sslip.io/araraku/privacidade.html
+**URL da política de privacidade:** https://jogos.134-209-45-236.sslip.io/araraku/privacidade.html
+**URL de suporte:** https://jogos.134-209-45-236.sslip.io/araraku/suporte.html
+**URL de marketing:** deixar em branco (é opcional)
+**Contrato de licença (EULA):** usar o padrão da Apple; os termos complementares ficam em https://jogos.134-209-45-236.sslip.io/araraku/termos.html
 **Direitos de conteúdo:** o app não usa conteúdo de terceiros (a ilustração da arara é do dono do app)
 
 **Texto promocional:**
@@ -62,6 +65,24 @@ Quando você acerta, a arara pisca e canta. Quando o tabuleiro fica completo, to
 - Dicas, desfazer e marcação automática para quem está aprendendo
 - Música e efeitos sonoros que podem ser desligados
 - Funciona sem internet, sem anúncios e sem coletar nenhum dado
+
+## Respostas para os questionários da App Store Connect
+
+| Onde | Pergunta | Resposta |
+|---|---|---|
+| Privacidade do app | Você ou seus parceiros coletam dados deste app? | **Não** → aparece "Dados não coletados" |
+| Privacidade do app | Rastreamento / identificador de publicidade | Não usa (não precisa pedir permissão de rastreamento) |
+| Classificação etária | Violência, sexo, linguagem, drogas, terror, jogos de azar, concursos, tema médico | **Nenhum / Não** em tudo |
+| Classificação etária | Acesso irrestrito à web, conteúdo de usuários, mensagens/chat, anúncios | **Não** em tudo → classificação **4+** |
+| Classificação etária | Feito para crianças (categoria Infantil) | **Não** (fica em Jogos; a categoria Infantil exige regras extras, como portão para os pais antes de links) |
+| Direitos de conteúdo | O app contém, mostra ou acessa conteúdo de terceiros? | **Não** |
+| Conformidade de exportação | Usa criptografia? | Já respondido dentro do app (`ITSAppUsesNonExemptEncryption = NÃO`); a pergunta não aparece |
+| Informações para a revisão | É preciso login? | **Não** (desmarcar "Login necessário") |
+| Informações para a revisão | Contato | nome, telefone e e-mail de quem responde à Apple |
+| Preço e disponibilidade | Preço / países | Grátis · **somente Brasil** (o app é só em português; publicar na União Europeia obriga a declarar status de comerciante e mostrar endereço e telefone públicos, pela lei europeia DSA) |
+| Contas | Exclusão de conta | Não se aplica (o app não tem contas) |
+
+O que já está dentro do app para a revisão: política de privacidade acessível no rodapé do jogo ("Privacidade e suporte", regra 5.1.1), manifesto de privacidade `ios/App/App/PrivacyInfo.xcprivacy` (sem rastreamento, sem coleta, sem APIs de motivo obrigatório), nenhum pedido de permissão, nenhum serviço de terceiros e funcionamento offline (o jogo vem dentro do app, não é um site carregado da internet; regra 4.2).
 
 **Notas para a revisão da Apple:**
 Jogo offline, sem login e sem compras. Toque marca uma casa com X; toque duplo pousa a arara. Para ver a animação de vitória rapidamente, use o botão de dica (lâmpada) e pouse a arara na casa destacada até completar o tabuleiro.

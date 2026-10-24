@@ -106,6 +106,8 @@ h1{font:800 34px/1.05 var(--f-display);margin:0;color:var(--dark);text-wrap:bala
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 .voltar{text-align:center;margin:18px 0 0;font-size:13px}.voltar a{color:var(--muted)}
+.rodape{text-align:center;margin:6px 0 0}.rodape button{border:0;background:none;color:var(--muted);text-decoration:underline;font:700 13px var(--f-body);cursor:pointer;padding:8px}
+.modal a{color:#1E6FBF;font-weight:800}
 @keyframes piscar{0%,22%,46%,100%{transform:none}9%,13%,33%,37%{transform:translateY(16.2px)}}
 .canta .lid{animation:piscar .9s ease-in-out .38s}
 .modal .head svg .lid{animation:piscar 3.4s ease-in-out .5s infinite}
@@ -165,6 +167,7 @@ h1{font:800 34px/1.05 var(--f-display);margin:0;color:var(--dark);text-wrap:bala
   <label class="opts"><input type="checkbox" id="musica"> Música de fundo</label>
 </main>
 <p class="voltar"><a href="/">Todos os jogos</a></p>
+<p class="rodape"><button type="button" id="bPriv">Privacidade e suporte</button></p>
 
 <div class="voo" id="voo" hidden aria-hidden="true"></div>
 <div class="overlay" id="overlay" hidden><div class="modal" id="modal"></div></div>
@@ -499,6 +502,17 @@ function album(){
     <div class="row"><button class="btn primary" id="mClose">Fechar</button></div>`);
   $('mClose').onclick=close;
 }
+const SITE='https://jogos.134-209-45-236.sslip.io/araraku/'; // páginas completas: abrem no navegador, fora do jogo
+function privacidade(){
+  const link=(arq,txt)=>`<a href="${SITE}${arq}" target="_blank" rel="noopener">${txt}</a>`;
+  modal(`<h3>Privacidade e suporte</h3>
+    <p><b>O Ararakú não coleta nenhum dado.</b> Não tem cadastro, anúncios, compras nem rastreamento, e funciona sem internet.</p>
+    <p>Suas fases, o álbum e as preferências de som ficam só neste aparelho. Desinstalar o app apaga tudo.</p>
+    <p>Dúvidas ou problemas: WhatsApp <a href="https://wa.me/5543996622117" target="_blank" rel="noopener">(43)&nbsp;99662-2117</a>.</p>
+    <p>${link('privacidade.html','Política de privacidade')} · ${link('suporte.html','Suporte')} · ${link('termos.html','Termos de uso')}</p>
+    <div class="row"><button class="btn primary" id="mClose">Fechar</button></div>`);
+  $('mClose').onclick=close;
+}
 function rules(){
   modal(`<h3>Como jogar</h3><ul>
     <li>Cada <b>cor</b> é uma árvore e recebe exatamente <b>uma arara</b>.</li>
@@ -527,7 +541,7 @@ $('board').addEventListener('click',e=>{
 });
 $('biomes').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const bm=BIOMES.find(x=>x.id===b.dataset.b);load(bm,progress[bm.id]||1)});
 $('bUndo').onclick=undo;$('bHint').onclick=hint;$('bRestart').onclick=()=>load(S.biome,S.level);
-$('bAlbum').onclick=album;$('bRules').onclick=rules;
+$('bAlbum').onclick=album;$('bRules').onclick=rules;$('bPriv').onclick=privacidade;
 $('som').checked=som;$('som').onchange=e=>{som=e.target.checked;store.set('araraku-som',som)};
 $('musica').checked=musica;$('musica').onchange=e=>{musica=e.target.checked;store.set('araraku-musica',musica);musica?iniciarMusica():pararMusica()};
 addEventListener('pointerup',iniciarMusica);addEventListener('keydown',iniciarMusica); // começa no primeiro toque (pointerup libera áudio no iPhone)

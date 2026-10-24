@@ -37,7 +37,10 @@ jobs:
       - name: Só conferir se compila (sem assinatura)
         if: ${{ !inputs.testflight }}
         run: |
-          xcodebuild -project ios/App/App.xcodeproj -scheme App -configuration Release             -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build
+          xcodebuild -project ios/App/App.xcodeproj -scheme App -configuration Release             -destination 'generic/platform=iOS Simulator' -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
+          APP=build/Build/Products/Release-iphonesimulator/App.app
+          test -f "$APP/PrivacyInfo.xcprivacy" && echo "Manifesto de privacidade dentro do app: ok"
+          test -f "$APP/public/index.html" && echo "Jogo dentro do app: ok"
 
       - name: Chave da App Store Connect
         if: ${{ inputs.testflight }}
