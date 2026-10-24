@@ -52,17 +52,14 @@ jobs:
           printf '%s\n' "$ASC_KEY_P8" > "$RUNNER_TEMP/chave/AuthKey_$ASC_KEY_ID.p8"
           echo "ASC_KEY_PATH=$RUNNER_TEMP/chave/AuthKey_$ASC_KEY_ID.p8" >> "$GITHUB_ENV"
 
-      - name: Arquivar (assinatura automática na nuvem da Apple)
+      # Arquiva SEM assinar: a assinatura automática de desenvolvimento exige iPhone cadastrado na conta.
+      # Quem assina é a exportação, já com certificado e perfil de distribuição (App Store não precisa de aparelho).
+      - name: Arquivar (sem assinatura)
         if: ${{ inputs.testflight }}
         run: |
-          xcodebuild -project ios/App/App.xcodeproj -scheme App -configuration Release \
-            -destination 'generic/platform=iOS' -archivePath "$RUNNER_TEMP/App.xcarchive" \
-            -allowProvisioningUpdates \
-            -authenticationKeyPath "$ASC_KEY_PATH" -authenticationKeyID "$ASC_KEY_ID" -authenticationKeyIssuerID "$ASC_ISSUER_ID" \
-            DEVELOPMENT_TEAM="$APPLE_TEAM_ID" CURRENT_PROJECT_VERSION="${{ github.run_number }}" \
-            archive
+          xcodebuild -project ios/App/App.xcodeproj -scheme App -configuration Release             -destination 'generic/platform=iOS' -archivePath "$RUNNER_TEMP/App.xcarchive"             DEVELOPMENT_TEAM="$APPLE_TEAM_ID" CURRENT_PROJECT_VERSION="${{ github.run_number }}"             CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY=""             archive
 
-      - name: Enviar para a App Store Connect
+      - name: Assinar para distribuição e enviar para a App Store Connect
         if: ${{ inputs.testflight }}
         run: |
           cat > "$RUNNER_TEMP/export.plist" <<PLIST
